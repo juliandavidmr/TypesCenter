@@ -7,7 +7,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 import ListarRolesComponent from '../../components/Rol/ListarRoles.component.jsx';
-import * as RolActions from '../../actions/rol.js';
+import * as BuscarActions from '../../actions/buscar.js';
 
 class ListarRoles extends Component {
   constructor(props) {
@@ -79,7 +79,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(RolActions, dispatch)
+    actions: bindActionCreators(BuscarActions, dispatch)
   };
 }
 

@@ -2,9 +2,9 @@
 import { routerReducer as routing } from 'react-router-redux';
 import { combineReducers } from 'redux';
 
-import rol from './rol';
+import buscar from './buscar';
 
 export default combineReducers({
   routing,
-  rol
+  buscar
 });
