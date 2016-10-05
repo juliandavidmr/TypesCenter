@@ -1,0 +1,22 @@
+
+/*
+	Estados del reducer
+*/
+export const VER_ROL = 'VER_ROL';
+export const INSERTAR_ROL = 'INSERTAR_ROL';
+export const ELIMINAR_ROL = 'ELIMINAR_ROL';
+export const LISTAR_ROLES = 'LISTAR_ROLES';
+
+
+
+/*
+	Estados de API
+*/
+export const ERROR_INSERTAR_ROL = 'ERROR_INSERTAR_ROL';
+export const ERROR_ACTUALIZAR_ROL = 'ERROR_ACTUALIZAR_ROL';
+export const ERROR_ELIMINAR_ROL = 'ERROR_ELIMINAR_ROL';
+export const ERROR_ROL = 'ERROR_ROL';
+
+export const SUCCESSFULL_INSERT_ROL = 'SUCCESSFULL_INSERT_ROL';
+export const SUCCESSFULL_UPDATE_ROL = 'SUCCESSFULL_UPDATE_ROL';
+export const SUCCESSFULL_DELETE_ROL = 'SUCCESSFULL_DELETE_ROL';
