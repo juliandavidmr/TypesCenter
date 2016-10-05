@@ -1,156 +1,50 @@
 import React, {Component, PropTypes} from 'react';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 
-export default class Rol extends Component {
+import * as BuscarActions from '../../actions/buscar.js';
+
+class Index extends Component {
     constructor(props) {
         super(props);
 
+        this.state = {
+            title: 'Types',
+            description: 'Explore @Types Packages',
+            list_packages: []
+        };
+    }
+
+    // Antes de renderizar el componente
+    componentWillMount() {
+        const { actions } = this.props;
+
+        actions.listar().then(() => {
+            var result = this.props.buscar.buscar.get('data_list').toJS();
+            console.log('list ===>>=>==> ', result);
+
+            this.setState({
+                list_packages: result.items,
+                cargando: false
+            });
+        }).catch(err => {
+            console.log('ERROR> ', err);
+
+            this.setState({
+                cargando: false
+            });
+        });
     }
 
     render() {
         return (
             <div>
-                <div className="notifications">
-                    <div data-momentum=""></div>
-                </div>
-
                 <div className="applicationLayout">
-                    <nav className="applicationMenu">
-                        <div className="list-vertical">
-                            <a href="https://atmospherejs.com/">Home</a>
-                            <a href="https://atmospherejs.com/i/installing">Installing</a>
-                            <a href="https://atmospherejs.com/i/publishing">Publishing</a>
-                            <a href="https://atmospherejs.com/i/faq">FAQ</a>
-                            <a
-                                href="http://blog.percolatestudio.com/engineering/the-atmosphere-story/"
-                                target="_blank">About</a>
-                            <a href="http://percolatestudio.com/" target="_blank" className="attribution">
-                                <span className="subtitle-attribution">Created by</span>
-                                <span className="title-attribution">
-                                    <img src="assets/img/logo-percolate-inverse.svg" alt="Percolate Studio"/>
-                                </span>
-                            </a>
-                        </div>
-                        <div className="keyboard-shortcuts">
-                            <div className="keyboard">
-                                <div>
-                                    <i className="letter-a">A</i>
-                                    <span>Menu</span>
-                                </div>
-                                <div>
-                                    <i className="letter-s">S</i>
-                                    <span>Search</span>
-                                </div>
-                                <div>
-                                    <i className="letter-d">D</i>
-                                    <span>Coming Soon</span>
-                                </div>
-                                <div>
-                                    <i className="letter-w">W</i>
-                                    <span>Coming Soon</span>
-                                </div>
-                            </div>
-                        </div>
-                    </nav>
-
-                    <div className="packagesSearchOverlay search-no-query">
-
-                        <a className="overlay-close">
-                            <span className="icon-cross"></span>
-                            <span className="tip">[ESC]</span>
-                        </a>
-
-                        <header className="default overlay-responsive">
-                            <div className="subtitle">Search Packages</div>
-                            <div className="input-symbol">
-                                <span className="icon-search"></span>
-                                <input id="real-search-field" className="nochrome" type="text" name="search"/>
-                            </div>
-                        </header>
-
-                        <div className="list-searches">
-                            <span className="heading">Popular Searches:</span>
-
-                            <a href="https://atmospherejs.com/packages/bootstrap">
-                                <span>bootstrap</span>
-                            </a>
-
-                            <a href="https://atmospherejs.com/packages/accounts">
-                                <span>accounts</span>
-                            </a>
-
-                            <a href="https://atmospherejs.com/packages/bootstrap3">
-                                <span>bootstrap3</span>
-                            </a>
-
-                            <a href="https://atmospherejs.com/packages/autoform">
-                                <span>autoform</span>
-                            </a>
-
-                            <a href="https://atmospherejs.com/packages/material">
-                                <span>material</span>
-                            </a>
-
-                            <a href="https://atmospherejs.com/packages/semantic">
-                                <span>semantic</span>
-                            </a>
-
-                            <a href="https://atmospherejs.com/packages/File%20upload">
-                                <span>File upload</span>
-                            </a>
-
-                            <a href="https://atmospherejs.com/packages/roles">
-                                <span>roles</span>
-                            </a>
-
-                            <a href="https://atmospherejs.com/packages/polymer">
-                                <span>polymer</span>
-                            </a>
-
-                            <a href="https://atmospherejs.com/packages/collection">
-                                <span>collection</span>
-                            </a>
-
-                        </div>
-                    </div>
-                    <div className="authenticationOverlay">
-                        <a className="overlay-close">
-                            <span className="icon-cross"></span>
-                            <span className="tip">[ESC]</span>
-                        </a>
-
-                        <header className="center">
-                            <div className="page-title">Sign In</div>
-                            <div className="description">Star your favorite packages and connect with the Meteor community</div>
-                            <a className="btn-primary" data-meteor-developer-login="">Login with Meteor</a>
-                        </header>
-
-                    </div>
-
                     <div className="content-overlay"></div>
                     <div className="content">
 
                         <nav className="nav white">
-                            <div className="nav-group">
-                                <div data-menu="" className="nav-item">
-                                    <span className="icon-menu"></span>
-                                </div>
-
-                                <div data-search="" className="nav-item search">
-                                    <span className="icon-search"></span>
-                                    <span className="text">Search</span>
-                                </div>
-                            </div>
-
-                            <a className="logo" href="https://atmospherejs.com/">Atmosphere</a>
-
-                            <div className="nav-group right">
-
-                                <a className="btn-auth" data-meteor-developer-login="">
-                                    <span className="icon-user"></span>
-                                    <span className="text">Sign in</span>
-                                </a>
-
-                            </div>
+                            <a className="logo" href="https://atmospherejs.com/">{this.state.title}</a>
                         </nav>
 
                         <div className="applicationHome">
@@ -158,7 +52,7 @@ export default class Rol extends Component {
                                 <form style={{
                                     "opacity": 0.905357
                                 }}>
-                                    <div className="page-title">Explore Meteor Packages</div>
+                                    <div className="page-title">{this.state.description}</div>
                                     <div className="input-symbol center" data-search="">
                                         <span className="icon-search"></span>
                                         <input
@@ -167,7 +61,9 @@ export default class Rol extends Component {
                                             name="search"
                                             placeholder="Search packages now"/>
                                     </div>
-                                    <a href="https://atmospherejs.com/i/installing" className="learn-more inverse">Learn more about Meteor package management</a>
+                                    <a
+                                        href="https://atmospherejs.com/i/installing"
+                                        className="learn-more inverse">Learn more about Meteor package management</a>
                                 </form>
                             </header>
 
@@ -179,41 +75,37 @@ export default class Rol extends Component {
 
                                 <ol className="grid fixed-height">
 
-                                    <li className="module packagesItem">
-                                        <span className="metadata">
-                                            <a
-                                                href="https://atmospherejs.com/fortawesome/fontawesome"
-                                                className="click-intercept"></a>
-                                            <span className="title">
+                                    {
+                                        this.state.list_packages.map((item, i) => {
+                                            return (
+                                                <li className="module packagesItem" key={i}>
+                                                    <span className="metadata">
+                                                        <a
+                                                            href="https://atmospherejs.com/fortawesome/fontawesome"
+                                                            className="click-intercept"></a>
+                                                        <span className="title">
+                                                            <a href="https://atmospherejs.com/fortawesome/fontawesome">{item.name}</a>
+                                                        </span>
+                                                        <p className="description">
+                                                            {item.description}
+                                                        </p>
 
-                                                <a href="https://atmospherejs.com/fortawesome" className="author">fortawesome</a>
+                                                        <div className="stats">
+                                                            <span className="stat-installs">
+                                                                <span className="icon-download"></span>
+                                                                {item.version}
+                                                            </span>
 
-                                                <span className="colon">:</span>
-
-                                                <a href="https://atmospherejs.com/fortawesome/fontawesome">­fontawesome</a>
-                                            </span>
-                                            <p className="description">Font Awesome (official): 500+ scalable vector icons,
-                                                customizable via CSS, Retina friendly</p>
-
-                                            <div className="stats">
-                                                <span className="stat-installs">
-                                                    <span className="icon-download"></span>
-                                                    48.4K</span>
-
-                                                <span className="stat-stars">
-                                                    <span className="icon-star"></span>
-                                                    299</span>
-
-                                            </div>
-
-                                            <svg viewBox="0 -0.1 5.5 1" className="graph">
-                                                <path
-                                                    d="M 0 1 L 0.7142857142857143 1 L 1.4285714285714286 0.9512271581560279 L 2.142857142857143 0.9512008833301668 L 2.857142857142857 0.24003345492209638 L 3.5714285714285716 0.3033867533507314 L 4.285714285714286 0 L 4.900068624649591 0.022771813167405456"></path>
-                                                <circle cx="5" cy="0.026475894777677977" r="0.1"></circle>
-                                            </svg>
-
-                                        </span>
-                                    </li>
+                                                            <span className="stat-stars">
+                                                                <span className="icon-star"></span>
+                                                                {item.access}
+                                                                </span>
+                                                        </div>
+                                                    </span>
+                                                </li>
+                                            );
+                                        })
+                                    }
 
                                     <li className="module packagesItem">
                                         <span className="metadata">
@@ -223,7 +115,7 @@ export default class Rol extends Component {
                                             <span className="title">
 
                                                 <a href="https://atmospherejs.com/aslagle" className="author">aslagle</a>
-                                                <span className="colon">:</span>
+                                                <span className="colon">: </span>
 
                                                 <a href="https://atmospherejs.com/aslagle/reactive-table">­reactive-table</a>
                                             </span>
@@ -255,7 +147,7 @@ export default class Rol extends Component {
                                             <span className="title">
 
                                                 <a href="https://atmospherejs.com/jalik" className="author">jalik</a>
-                                                <span className="colon">:</span>
+                                                <span className="colon">: </span>
 
                                                 <a href="https://atmospherejs.com/jalik/ufs-gridfs">­ufs-gridfs</a>
                                             </span>
@@ -286,7 +178,7 @@ export default class Rol extends Component {
                                             <span className="title">
 
                                                 <a href="https://atmospherejs.com/jalik" className="author">jalik</a>
-                                                <span className="colon">:</span>
+                                                <span className="colon">: </span>
 
                                                 <a href="https://atmospherejs.com/jalik/ufs">­ufs</a>
                                             </span>
@@ -349,12 +241,12 @@ export default class Rol extends Component {
                                             <span className="title">
 
                                                 <a href="https://atmospherejs.com/manuel" className="author">manuel</a>
-                                                <span className="colon">:</span>
+                                                <span className="colon">: </span>
 
                                                 <a href="https://atmospherejs.com/manuel/viewmodel">­viewmodel</a>
                                             </span>
                                             <p className="description">MVVM, two-way data binding, and components for
-                                                Meteor. Similar to Angular and Knockout.</p>
+                                                Meteor.Similar to Angular and Knockout.</p>
 
                                             <div className="stats">
                                                 <span className="stat-installs">
@@ -382,7 +274,7 @@ export default class Rol extends Component {
                                             <span className="title">
 
                                                 <a href="https://atmospherejs.com/jalik" className="author">jalik</a>
-                                                <span className="colon">:</span>
+                                                <span className="colon">: </span>
 
                                                 <a href="https://atmospherejs.com/jalik/ufs-local">­ufs-local</a>
                                             </span>
@@ -413,7 +305,7 @@ export default class Rol extends Component {
                                             <span className="title">
 
                                                 <a href="https://atmospherejs.com/jcbernack" className="author">jcbernack</a>
-                                                <span className="colon">:</span>
+                                                <span className="colon">: </span>
 
                                                 <a href="https://atmospherejs.com/jcbernack/reactive-aggregate">­reactive-aggregate</a>
                                             </span>
@@ -445,7 +337,7 @@ export default class Rol extends Component {
                                             <span className="title">
 
                                                 <a href="https://atmospherejs.com/akryum" className="author">akryum</a>
-                                                <span className="colon">:</span>
+                                                <span className="colon">: </span>
 
                                                 <a href="https://atmospherejs.com/akryum/vue-component">­vue-component</a>
                                             </span>
@@ -474,7 +366,7 @@ export default class Rol extends Component {
                                             <span className="title">
 
                                                 <a href="https://atmospherejs.com/universe" className="author">universe</a>
-                                                <span className="colon">:</span>
+                                                <span className="colon">: </span>
 
                                                 <a href="https://atmospherejs.com/universe/utilities">­utilities</a>
                                             </span>
@@ -615,7 +507,7 @@ export default class Rol extends Component {
                                 <section className="about">
                                     <div className="subtitle">About</div>
                                     <p className="desc">Atmosphere is the catalog for Meteor packages, resources and
-                                        tools. Explore the most popular, trusted, and reliable packages to install in
+                                        tools.Explore the most popular, trusted, and reliable packages to install in
                                         your apps.</p>
 
                                     <div className="subtitle">Created By</div>
@@ -676,10 +568,28 @@ export default class Rol extends Component {
                 </div>
 
                 <section className="content">
-                    {this.props.children
-}
+                    {
+                        this.props.children
+                    }
                 </section>
             </div>
         );
     }
 }
+
+function mapStateToProps(state) {
+    return {
+        buscar: state.buscar
+    };
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        actions: bindActionCreators(BuscarActions, dispatch)
+    };
+}
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(Index);

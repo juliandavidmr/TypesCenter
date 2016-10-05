@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 
 import {
-  LISTAR_ROLES,
+  LISTAR_BUSQUEDA,
   VER_ROL,
   INSERTAR_ROL,
   ELIMINAR_ROL,
@@ -9,28 +9,22 @@ import {
   ERROR_INSERTAR_ROL,
   ERROR_ELIMINAR_ROL,
   ERROR_ROL
-} from '../constants/rol';
+} from '../constants/buscar.js';
 
 import Immutable from 'immutable';
 
 const initialState = new Immutable.Map({
-  data_list_roles: [],
+  data_list: [],
   error: null,
   result: false
 });
 
-export function rol(state = initialState, action) {
+export function buscar(state = initialState, action) {
   switch (action.type) {
-    case LISTAR_ROLES:
+    case LISTAR_BUSQUEDA:
       return state.merge({
-        data_list_roles: action.response.data,
+        data_list: action.response.data,
         error: null,
-        result: action.response.data.result
-      });
-    case INSERTAR_ROL:
-      return state.merge({
-        data_list_roles: action.response.data,
-        err: null,
         result: action.response.data.result
       });
     default:
@@ -39,7 +33,7 @@ export function rol(state = initialState, action) {
 }
 
 const Reducer = combineReducers({
-  rol
+  buscar
 });
 
 export default Reducer;

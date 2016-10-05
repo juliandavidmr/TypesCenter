@@ -6,7 +6,7 @@ import React, {Component, PropTypes, applyMiddleware } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import ListarRolesComponent from '../../components/Rol/ListarRoles.component.jsx';
+import ListarRolesComponent from '../../components/Buscar/ListarRoles.component.jsx';
 import * as BuscarActions from '../../actions/buscar.js';
 
 class ListarRoles extends Component {
@@ -17,10 +17,6 @@ class ListarRoles extends Component {
       tabla_datos: [],
       cargando: true
     };
-  }
-
-  componentDidMount() {
-    this._notificationSystem = this.refs.notificationSystem;
   }
 
   // Antes de renderizar el componente
