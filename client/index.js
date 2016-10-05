@@ -6,7 +6,6 @@ import React from 'react';
 
 // Buscar
 import Buscar from './containers/Buscar/index.jsx';
-import ListarRoles from './containers/Buscar/Listar.container.jsx';
 
 import NoMatch from './containers/NoMatch'; // 404 o no encontrado
 
@@ -16,16 +15,13 @@ const store = configure();
 const history = syncHistoryWithStore(browserHistory, store);
 
 const basename = '/';
+console.log('URL: ', window.location.href);
 
 ReactDOM.render(
   <Provider store={store}>
   <Router history={history}>
     <Route path={basename} component={Buscar}></Route>
 
-    <Route path={basename}>
-      <Route path="listar" component={ListarRoles}/>  
-    </Route>
-    
-    <Route path="*" component={NoMatch}/>
+    <Route path="*" component={Buscar}/>
   </Router>
 </Provider>, document.getElementById('root'));
